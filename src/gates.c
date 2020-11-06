@@ -57,6 +57,14 @@ uint64_t activate_bit(uint64_t nr, uint8_t i)
      * Return the "nr" with the ith bit "1"
      */
 
+    //Edited by MoRommy on 05/11/2020 at 03:18 PM
+
+    int c = 1;
+    for(int j = 1; j <= i; j++) {
+        c *= 2;
+    }
+    res = c | nr;
+
     return res;
 }
 
@@ -71,6 +79,12 @@ uint64_t clear_bit(uint64_t nr, uint8_t i)
      *
      * Return the "nr" with the ith bit "0"
      */
+
+    int c = 1;
+    for(int j = 1; j <= i; j++) {
+        c *= 2;
+    }
+    res = ~c & n;
 
     return res;
 }
@@ -167,13 +181,24 @@ uint8_t full_adder(uint8_t a, uint8_t b, uint8_t c)
      */
 
 	//edited by MoRommy on 02/11/2020 at 7:13 PM
-	uint8_t suma = 0;
-	suma = or_gate(
-	and_gate(not_gate(a), xor_gate(b, c)),
-	and_gate(a, or_gate(and_gate(b, c), and_gate(not_gate(b), not_gate(c))))
+	uint8_t sum = 0;
+	sum = or_gate(
+		and_gate(not_gate(a), xor_gate(b, c)),
+		and_gate(a, or_gate(and_gate(b, c), and_gate(not_gate(b), not_gate(c))))
 	);
-	// suma = !a!bc + !ab!c + abc + a!b!c = !a(xor_gate(b, c) + a(bc + !b!c)
+	// sum = !a!bc + !ab!c + abc + a!b!c = !a(xor_gate(b, c) + a(bc + !b!c)
+	
+	uint8_t carry = 0;
+	carry = or_gate(
+		and_gate(a, or_gate(b, c)),
+		and_gate(b, c)
+	);
+	// carry = ab + bc + ac = a(b + c) + bc
 
+	sum = sum << 1;
+	res = sum + carry;
+	// 0 bit = carry bit
+	// 1 bit = sum bit
     return res;
 }
 
@@ -188,5 +213,7 @@ uint64_t ripple_carry_adder(uint64_t a, uint64_t b)
      * result should be 0
      */
 
+    
+    
     return res;
 }
