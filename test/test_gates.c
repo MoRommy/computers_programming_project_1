@@ -341,9 +341,9 @@ uint8_t test_xor_gate(void)
 /* ripple carry adder */
 uint8_t test_ripple_carry_adder(void)
 {
-    const uint64_t op1[]    = {0, 532, 5432, 5613, 1, UINT64_MAX, UINT64_MAX};
-    const uint64_t op2[]    = {0, 523, 3213, 231, 999, 1, UINT64_MAX};
-    const uint64_t exp_res[] = {0, 1055, 8645, 5844, 1000, 0, 0};
+    const uint64_t op1[]    = {284, 141, 533, 5433, 5613, 1, UINT64_MAX, UINT64_MAX};
+    const uint64_t op2[]    = {134, 312, 523, 3213, 231, 999, 1, UINT64_MAX};
+    const uint64_t exp_res[] = {418, 453, 1056, 8646, 5844, 1000, 0, 0};
 
     for (uint32_t i = 0; i < ARRAY_SIZE(op1); i++) {
         const uint64_t value = ripple_carry_adder(op1[i], op2[i]);
