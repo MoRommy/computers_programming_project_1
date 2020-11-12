@@ -119,7 +119,7 @@ void recv_message(void)
     uint8_t length = recv_squanch();
     uint8_t length_decoded = decode_length(length);
     fprintf(stdout, "%d", length_decoded);
-    print_each_decoded_character(length_decoded);
+    print_each_encoded_character(length_decoded);
 }
 
 void comm_message(void)
