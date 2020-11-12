@@ -16,7 +16,6 @@ uint8_t get_bit(uint64_t nr, uint8_t i)
      * "res" should be 1 if the bit is active, else 0
      */
 
-    //Edited by MoRommy on 03/11/2020 at 10:42 PM
     nr = nr >> i;
     res = nr % 2;
 
@@ -35,12 +34,7 @@ uint64_t flip_bit(uint64_t nr, uint8_t i)
      * Return the "nr" with the ith bit flipped
      */
 
-    //Edited by MoRommy on 03/11/2020 at 11:19 PM
-    int c = 1;
-    for(int j = 1; j <= i; j++) {
-        c *= 2;
-    }
-    res = c ^ nr;
+    res = 1ull << i ^ nr;
 
     return res;
 }
@@ -56,14 +50,8 @@ uint64_t activate_bit(uint64_t nr, uint8_t i)
      *
      * Return the "nr" with the ith bit "1"
      */
-
-    //Edited by MoRommy on 05/11/2020 at 03:18 PM
-
-    unsigned long long c = 1;
-    for(int j = 1; j <= i; j++) {
-        c *= 2;
-    }
-    res = c | nr;
+    
+    res = 1ull << i | nr;
 
     return res;
 }
@@ -80,11 +68,7 @@ uint64_t clear_bit(uint64_t nr, uint8_t i)
      * Return the "nr" with the ith bit "0"
      */
 
-    unsigned long long c = 1;
-    for(int j = 1; j <= i; j++) {
-        c *= 2;
-    }
-    res = ~c & nr;
+    res = ~(1ull << i) & nr;
 
     return res;
 }
@@ -110,7 +94,6 @@ uint8_t and_gate(uint8_t a, uint8_t b)
 
     /* TODO - Use the nand gate to implement the and gate */
 	
-	//edited by MoRommy on 02/11/2020 at 6:04 PM
 	res = nand_gate(nand_gate(a, b), nand_gate(a, b));
 	
     return res;
@@ -125,7 +108,6 @@ uint8_t not_gate(uint8_t a)
 
     /* TODO - Use the nand gate to implement the not gate */
 
-	//edited by MoRommy on 02/11/2020 at 6:08 PM
 	res = nand_gate(a, a);
 	
     return res;
@@ -141,7 +123,6 @@ uint8_t or_gate(uint8_t a, uint8_t b)
 
     /* TODO - Use the previously defined gates to implement the or gate */
 
-	//edited by MoRommy on 02/11/2020 at 6:09 PM
 	res = nand_gate(not_gate(a), not_gate(b));
 	
     return res;
@@ -157,7 +138,6 @@ uint8_t xor_gate(uint8_t a, uint8_t b)
 
     /* TODO - Use the previously defined gates to implement the xor gate */
 	
-	//edited by MoRommy on 02/11/2020 at 6:13 PM
 	res = nand_gate(nand_gate(a, nand_gate(a,b)), nand_gate(b, nand_gate(a, b)));
 	
     return res;
@@ -180,7 +160,6 @@ uint8_t full_adder(uint8_t a, uint8_t b, uint8_t c)
      * it in whatever way you like
      */
 
-	//edited by MoRommy on 02/11/2020 at 7:13 PM
 	uint8_t sum = 0;
 	sum = or_gate(
 		and_gate(not_gate(a), xor_gate(b, c)),

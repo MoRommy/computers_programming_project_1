@@ -3,6 +3,39 @@
 
 /* Task 1 - Axii */
 
+uint8_t get_bit(uint64_t nr, uint8_t i)
+{
+    uint8_t res = -1;
+
+    nr = nr >> i;
+    res = nr % 2;
+
+    return res;
+}
+
+uint64_t clear_bit(uint64_t nr, uint8_t i)
+{
+    uint64_t res = -1;
+
+    /* TODO
+     *
+     * Return the "nr" with the ith bit "0"
+     */
+
+    res = ~(1ull << i) & nr;
+
+    return res;
+}
+
+uint64_t activate_bit(uint64_t nr, uint8_t i)
+{
+
+    uint64_t res = 0xFF;
+    res = 1ull << i | nr;
+
+    return res;
+}
+
 uint16_t find_spell(uint64_t memory)
 {
     /*
@@ -22,9 +55,26 @@ uint16_t find_spell(uint64_t memory)
      */
 
     uint16_t res = -1;
+    uint8_t i = 0, consecutive_bits_counter = 0;
+    while (memory) {
+    	if (get_bit(memory, 0)) {
+    		consecutive_bits_counter++;
+    	}
+    	else {
+    		consecutive_bits_counter = 0;
+    	} 
+    	memory = memory >> 1;
+    	if (consecutive_bits_counter == 5) {
+    		break;
+    	}
+    	i++;
+    }
 
-    /* TODO */
+    for (uint8_t j = 63; j > 15; j--) {
+    	memory = clear_bit(memory, j);
+    }
 
+    res = memory;
     return res;
 }
 
@@ -45,11 +95,33 @@ uint16_t find_key(uint64_t memory)
      */
 
     uint16_t res = -1;
+	uint8_t i = 0, consecutive_bits_counter = 0;
+    while (1) {
+    	if (get_bit(memory, i)) {
+    		consecutive_bits_counter++;
+    	}
+    	else {
+    		consecutive_bits_counter = 0;
+    	}
+    	if (consecutive_bits_counter == 3) {
+    		break;
+    	}
+    	i++;
+    }
 
-    /* TODO */
+    i -= 3;
+	for (uint8_t j = 63; j > i; j--) {
+    	memory = clear_bit(memory, j);
+    }
 
+    for (int8_t j = i - 16; j >= 0; j--) {
+    	memory = memory >> 1;
+    }
+
+    res = memory;
     return res;
 }
+
 
 
 uint16_t decrypt_spell(uint16_t spell, uint16_t key)
@@ -59,9 +131,13 @@ uint16_t decrypt_spell(uint16_t spell, uint16_t key)
      * spell_encrypted = spell_plaintext ^ key
      */
 
-    uint16_t res = -1;
+    uint16_t res = 0;
 
-    /* TODO */
+    for (uint8_t i = 0; i < 16; i++) {
+    	if (get_bit(spell, i) != get_bit(key, i)) {
+    		res = activate_bit(res, i);
+    	}
+    }
 
     return res;
 }
@@ -102,8 +178,31 @@ uint32_t choose_sword(uint16_t enemy)
 
     uint32_t res = -1;
 
-    /* TODO */
+    uint32_t sword = 0;
+    uint8_t active_bits_counter = 0;
+    for (uint8_t i = 0; i < 16; i++) {
+    	if(get_bit(enemy, i)) {
+    		active_bits_counter++;
+    	}
+    }
+    if (active_bits_counter % 2 == 0) {
+    	sword += 9;
+    	sword = sword << 28;
+    	uint16_t difference = 1 - enemy;
+    	for (uint8_t i = 0; i < 16; i++) {
+    		if(get_bit(difference, i) == 1 && get_bit(enemy, i) == 1) {
+    			sword = activate_bit(sword, i);
+    		}
+    	}
+    }
+    else {
+    	sword += 6;
+    	sword = sword << 28;
+    	enemy = -enemy;
+    	sword += enemy;
+    }
 
+    res = sword;
     return res;
 }
 

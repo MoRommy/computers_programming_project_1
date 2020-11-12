@@ -27,10 +27,10 @@ void recv_byte_message(void)
      * ATTENTION!: Use fprintf(stdout, ...)
      */
 
-    uint8_t c;
+    uint8_t character;
     for (int i = 1; i <= 5; i++) {
-        c = recv_squanch();
-        fprintf(stdout, "%c", c + 64);
+        character = recv_squanch();
+        fprintf(stdout, "%c", character + 64);
     }
 
 }
@@ -153,14 +153,8 @@ void comm_message(void)
 
 uint8_t activate_bit(uint8_t nr, uint8_t i)
 {
-    uint8_t res = -1;
-    int c = 1;
-
-    for(int j = 1; j <= i; j++) {
-        c *= 2;
-    }
-    res = c | nr;
-
+    uint8_t res = 1ull << i | nr;
+    
     return res;
 }
 
