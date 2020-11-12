@@ -6,7 +6,6 @@
 uint8_t get_bit(uint64_t nr, uint8_t i)
 {
     uint8_t res = -1;
-
     nr = nr >> i;
     res = nr % 2;
 
@@ -16,13 +15,7 @@ uint8_t get_bit(uint64_t nr, uint8_t i)
 uint64_t clear_bit(uint64_t nr, uint8_t i)
 {
     uint64_t res = -1;
-
-    /* TODO
-     *
-     * Return the "nr" with the ith bit "0"
-     */
-
-    res = ~(1ull << i) & nr;
+	res = ~(1ull << i) & nr;
 
     return res;
 }
@@ -233,7 +226,7 @@ uint32_t trial_of_the_grasses(uint16_t cocktail)
 
     uint32_t res = -1;
 
-    /* TODO */
+    res = cocktail << 16;
 
     return res;
 }
@@ -270,11 +263,39 @@ uint8_t trial_of_forrest_eyes(uint64_t map)
      * - Caed Dhu - index 3
      */
 
-    uint8_t res = -1;
+    if (map == -1) return 2;
+    if (map ==  0) return 0;
 
-    /* TODO */
+    uint8_t active_bits_in_a_row = 0, 
+    		max_counter = 0, 
+    		min_counter = 4,
+    		found_new_max = 0;
 
-    return res;
+    for (uint8_t i = 0; i < 64; i++) {
+    	if (get_bit(map, i)) {
+    		active_bits_in_a_row++;
+    		if (active_bits_in_a_row > max_counter) {
+			    max_counter = active_bits_in_a_row;
+			    found_new_max = 1;
+			}
+    	}
+    	else {
+    		if (max_counter < min_counter && found_new_max) {
+			    min_counter = max_counter;
+			}
+    		active_bits_in_a_row = 0;
+    		found_new_max = 0;
+    	}
+    }
+
+    if (max_counter == min_counter && max_counter == 4) {
+    	return 0;
+    }
+    if (max_counter == min_counter && max_counter == 2) {
+    	return 1;
+    }
+
+    return 3;
 }
 
 
@@ -303,7 +324,27 @@ uint8_t trial_of_the_dreams(uint32_t map)
 
     uint8_t res = -1;
 
-    /* TODO */
+    uint8_t found_portal_location = 0,
+    		found_candidate_location = 0,
+    		i = 0;
+
+    while (!found_portal_location) {
+    	if (get_bit(map, i)) {
+    		found_portal_location = i;
+    		break;
+    	}
+    	i++;
+    }
+    i++;
+
+    while (!found_candidate_location) {
+    	if (get_bit(map, i)) {
+    		found_candidate_location = i;
+    	}
+    	i++;
+    }
+
+    res = found_candidate_location - found_portal_location; 
 
     return res;
 }
