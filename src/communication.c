@@ -41,11 +41,12 @@ void comm_byte(void)
      * Receive 10 encoded characters and send each character (the character is
      * still encoded) 2 times
      */
-    uint8_t c;
+    
+    uint8_t character;
     for (int i = 1; i <= 10; i++) {
-        c = recv_squanch();
-        send_squanch(c);
-        send_squanch(c);
+        character = recv_squanch();
+        send_squanch(character);
+        send_squanch(character);
     }  
 
 }
@@ -83,22 +84,22 @@ uint8_t pow2(uint8_t n)
     else return 2 * pow2(n - 1);
 }
 
-uint8_t decodeLength(uint8_t length)
+uint8_t decode_length(uint8_t length)
 {
-    uint8_t lengthDecoded = 0;
+    uint8_t length_decoded = 0;
     length = length >> 2;
     for (int i = 0; i < 4; i++) {
         if (length % 2)
-            lengthDecoded += pow2(i);
+            length_decoded += pow2(i);
         length = length >> 1;
     }
-    return lengthDecoded;
+    return length_decoded;
 }
 
-void printEachDecodedCharacter(uint8_t lengthDecoded)
+void print_each_encoded_character(uint8_t length_decoded)
 {
     uint8_t character;
-    for (int i = 0; i < lengthDecoded; i++) {
+    for (int i = 0; i < length_decoded; i++) {
         character = recv_squanch();
         fprintf(stdout, "%c", character + 64);
     }
@@ -116,9 +117,9 @@ void recv_message(void)
      */
 
     uint8_t length = recv_squanch();
-    uint8_t lengthDecoded = decodeLength(length);
-    fprintf(stdout, "%d", lengthDecoded);
-    printEachDecodedCharacter(lengthDecoded);
+    uint8_t length_decoded = decode_length(length);
+    fprintf(stdout, "%d", length_decoded);
+    print_each_decoded_character(length_decoded);
 }
 
 void comm_message(void)
@@ -134,9 +135,10 @@ void comm_message(void)
      */
 
     uint8_t length = recv_squanch();
-    uint8_t lengthDecoded = decodeLength(length);
+    uint8_t length_decoded = decode_length(length);
     uint8_t character;
-    for (int i = 0; i < lengthDecoded; i++) {
+    
+    for (int i = 0; i < length_decoded; i++) {
         character = recv_squanch();
     }
 

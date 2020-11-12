@@ -192,16 +192,16 @@ uint64_t ripple_carry_adder(uint64_t a, uint64_t b)
      * result should be 0
      */
 
-    uint64_t sumAndCarry = 0;
+    uint64_t sum_and_carry = 0;
     res = 0;
     uint8_t carry = 0;
     uint8_t i = 0;
     uint8_t suma = 0;
     
     for (i = 0; i < 64; i++) {
-    	sumAndCarry = full_adder(get_bit(a, 0), get_bit(b, 0), carry);
-    	carry = get_bit(sumAndCarry, 0);
-    	suma = get_bit(sumAndCarry, 1);
+    	sum_and_carry = full_adder(get_bit(a, 0), get_bit(b, 0), carry);
+    	carry = get_bit(sum_and_carry, 0);
+    	suma = get_bit(sum_and_carry, 1);
     	a = a >> 1;
     	b = b >> 1;
     	if (suma) {
