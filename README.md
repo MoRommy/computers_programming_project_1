@@ -1,4 +1,4 @@
-# Tema PC - Radulescu Stefan
+# COMPUTERS PROGRAMMING 1 - Radulescu Stefan
 ### Part 1 - Bits & Pieces
 
 ##### Task 1 - Bit by Bit
