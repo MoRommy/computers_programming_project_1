@@ -1,4 +1,5 @@
-# COMPUTERS PROGRAMMING 1 - Radulescu Stefan
+# COMPUTERS PROGRAMMING
+# Project 1
 ### Part 1 - Bits & Pieces
 
 ##### Task 1 - Bit by Bit
